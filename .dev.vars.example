@@ -1,0 +1,8 @@
+# Copy to .dev.vars for local `npx wrangler dev` testing (never commit .dev.vars)
+SUPABASE_URL="https://your-project-ref.supabase.co"
+SUPABASE_SERVICE_ROLE_KEY="your-supabase-service-role-key"
+UPSTASH_REDIS_REST_URL="https://your-redis-instance.upstash.io"
+UPSTASH_REDIS_REST_TOKEN="your-upstash-rest-token"
+RESEND_API_KEY="re_your_resend_api_key"
+RESEND_FROM_EMAIL="shraff.tech <noreply@shraff.tech>"
+SITE_ORIGIN="http://127.0.0.1:8787"

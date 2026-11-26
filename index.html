@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      try {
+        var storedScheme = localStorage.getItem("shraff-color-scheme");
+        if (storedScheme === "light" || storedScheme === "dark") {
+          document.querySelector('meta[name="color-scheme"]').setAttribute("content", storedScheme);
+        }
+      } catch (_) {}
+    </script>
+    <title>shraff.tech — Multi-Language WebAssembly Online IDE</title>
+    <meta
+      name="description"
+      content="Run JavaScript, TypeScript, Python, C, C++, Lua, Ruby, PHP, and SQLite 100% locally in your browser using WebAssembly. Free, instant, and shareable."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

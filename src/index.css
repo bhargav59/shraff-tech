@@ -1,0 +1,320 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   shraff.tech Design Tokens & Modern Web Platform Styling
+   ============================================================================ */
+:root {
+  --bg-canvas-light: #f8fafc;
+  --bg-canvas-dark: #090d16;
+  --bg-surface-light: #ffffff;
+  --bg-surface-dark: #111827;
+  --bg-elevated-light: #f1f5f9;
+  --bg-elevated-dark: #1a2234;
+
+  --text-primary-light: #0f172a;
+  --text-primary-dark: #f1f5f9;
+  --text-muted-light: #475569;
+  --text-muted-dark: #94a3b8;
+
+  --border-light: #cbd5e1;
+  --border-dark: #283548;
+
+  --accent-light: #0284c7;
+  --accent-dark: #38bdf8;
+  --accent-ink-light: #ffffff;
+  --accent-ink-dark: #082f49;
+
+  --danger-light: #dc2626;
+  --danger-dark: #f87171;
+  --danger-bg-light: #fef2f2;
+  --danger-bg-dark: rgba(239, 68, 68, 0.14);
+
+  --success-light: #15803d;
+  --success-dark: #4ade80;
+
+  --scrollbar-track-light: #e2e8f0;
+  --scrollbar-track-dark: #0f172a;
+  --scrollbar-thumb-light: #64748b;
+  --scrollbar-thumb-dark: #475569;
+
+  /* Default fallback tokens (light) */
+  --bg-canvas: var(--bg-canvas-light);
+  --bg-surface: var(--bg-surface-light);
+  --bg-elevated: var(--bg-elevated-light);
+  --text-primary: var(--text-primary-light);
+  --text-muted: var(--text-muted-light);
+  --border-subtle: var(--border-light);
+  --accent: var(--accent-light);
+  --accent-ink: var(--accent-ink-light);
+  --danger: var(--danger-light);
+  --danger-bg: var(--danger-bg-light);
+  --success: var(--success-light);
+  --scrollbar-track: var(--scrollbar-track-light);
+  --scrollbar-thumb: var(--scrollbar-thumb-light);
+
+  @media (prefers-color-scheme: dark) {
+    --bg-canvas: var(--bg-canvas-dark);
+    --bg-surface: var(--bg-surface-dark);
+    --bg-elevated: var(--bg-elevated-dark);
+    --text-primary: var(--text-primary-dark);
+    --text-muted: var(--text-muted-dark);
+    --border-subtle: var(--border-dark);
+    --accent: var(--accent-dark);
+    --accent-ink: var(--accent-ink-dark);
+    --danger: var(--danger-dark);
+    --danger-bg: var(--danger-bg-dark);
+    --success: var(--success-dark);
+    --scrollbar-track: var(--scrollbar-track-dark);
+    --scrollbar-thumb: var(--scrollbar-thumb-dark);
+  }
+
+  /* MANDATORY: Keep base color-scheme as light dark; sync <meta> back into CSS */
+  color-scheme: light dark;
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
+    color-scheme: dark;
+  }
+
+  &:has(> head > meta[name="color-scheme"][content="light"]) {
+    color-scheme: light;
+  }
+
+  @supports (color: light-dark(white, black)) {
+    --bg-canvas: light-dark(var(--bg-canvas-light), var(--bg-canvas-dark));
+    --bg-surface: light-dark(var(--bg-surface-light), var(--bg-surface-dark));
+    --bg-elevated: light-dark(var(--bg-elevated-light), var(--bg-elevated-dark));
+    --text-primary: light-dark(var(--text-primary-light), var(--text-primary-dark));
+    --text-muted: light-dark(var(--text-muted-light), var(--text-muted-dark));
+    --border-subtle: light-dark(var(--border-light), var(--border-dark));
+    --accent: light-dark(var(--accent-light), var(--accent-dark));
+    --accent-ink: light-dark(var(--accent-ink-light), var(--accent-ink-dark));
+    --danger: light-dark(var(--danger-light), var(--danger-dark));
+    --danger-bg: light-dark(var(--danger-bg-light), var(--danger-bg-dark));
+    --success: light-dark(var(--success-light), var(--success-dark));
+    --scrollbar-track: light-dark(var(--scrollbar-track-light), var(--scrollbar-track-dark));
+    --scrollbar-thumb: light-dark(var(--scrollbar-thumb-light), var(--scrollbar-thumb-dark));
+  }
+
+  accent-color: var(--accent);
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+html,
+body,
+#root {
+  height: 100dvh;
+  margin: 0;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Accessible focus outlines across all controls */
+:where(a:any-link, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Screen-reader-only utility */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+.skip-link {
+  position: fixed;
+  inset-block-start: 0.75rem;
+  inset-inline-start: 0.75rem;
+  z-index: 100;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.5rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Scrollbar styling with WebKit fallback when scrollbar-color is unavailable */
+.ide-scroller {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
+}
+
+@supports not (scrollbar-color: auto) {
+  .ide-scroller {
+    scrollbar-width: auto;
+  }
+
+  .ide-scroller::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .ide-scroller::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 999px;
+  }
+
+  .ide-scroller::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+}
+
+/* Native <dialog> modal scroll containment & backdrop */
+dialog:modal {
+  overscroll-behavior: contain;
+  margin: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.875rem;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.35);
+  max-inline-size: min(94dvw, 36rem);
+  inline-size: 100%;
+  padding: 0;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgb(2 6 23 / 0.65);
+  backdrop-filter: blur(3px);
+}
+
+/* Native <progress> bar for Wasm asset download telemetry */
+progress.wasm-progress {
+  appearance: none;
+  border: 0 solid;
+  overflow: clip;
+  container-type: inline-size;
+  --progress-bar-radius: 1e5px;
+  --progress-bar-indeterminate-size: 32%;
+  --progress-bar-indeterminate-animation-duration: 1.4s;
+  border-radius: var(--progress-bar-radius);
+  background: var(--bg-elevated);
+  block-size: 0.45rem;
+  inline-size: 100%;
+
+  @media (prefers-reduced-motion: reduce) {
+    --progress-bar-indeterminate-animation-duration: 10s;
+  }
+}
+
+progress.wasm-progress::-webkit-progress-bar {
+  background: transparent;
+}
+
+progress.wasm-progress::-webkit-progress-value {
+  background: var(--accent);
+  border-radius: var(--progress-bar-radius);
+  transition: inline-size 0.25s ease-out;
+  animation: var(--progress-bar-animation, revert-rule);
+}
+
+progress.wasm-progress::-moz-progress-bar {
+  background: var(--accent);
+  border-radius: var(--progress-bar-radius);
+  transition: inline-size 0.25s ease-out;
+  animation: var(--progress-bar-animation, revert-rule);
+}
+
+progress.wasm-progress:indeterminate {
+  --progress-bar-animation: progress-bar-indeterminate var(--progress-bar-indeterminate-animation-duration) infinite linear;
+}
+
+@keyframes progress-bar-indeterminate {
+  from,
+  to {
+    inline-size: var(--progress-bar-indeterminate-size);
+    margin-right: auto;
+  }
+  from {
+    translate: -100%;
+  }
+  to {
+    translate: 100cqi;
+  }
+}
+
+/* Tab indicator using pseudo-element border (works in Forced Colors mode) */
+[role="tab"] {
+  position: relative;
+  min-block-size: 2.25rem;
+}
+
+[role="tab"][aria-selected="true"] {
+  color: var(--accent);
+}
+
+[role="tab"][aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  border-block-end: 2.5px solid var(--accent);
+}
+
+/* Toolbar buttons target sizes & disabled semantics */
+[role="toolbar"] button {
+  min-inline-size: 2.25rem;
+  min-block-size: 2.25rem;
+}
+
+[role="toolbar"] button[aria-disabled="true"] {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+/* Validation feedback deferred until after user interaction */
+.field-error-msg {
+  display: none;
+  color: var(--danger);
+  font-size: 0.8125rem;
+  margin-block-start: 0.35rem;
+}
+
+:is(input:user-invalid, input.user-invalid-fallback) {
+  border-color: var(--danger);
+  background-color: var(--danger-bg);
+}
+
+:is(input:user-invalid, input.user-invalid-fallback) + .field-error-msg {
+  display: block;
+}
+
+:is(input:user-valid, input.user-valid-fallback) {
+  border-color: var(--success);
+}
+
+/* Toggle icon branch matching <meta name="color-scheme"> without JS class reliance */
+.theme-icon-to-light {
+  display: none;
+}
+
+.theme-icon-to-dark {
+  display: inline-flex;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) .theme-icon-to-light {
+    display: inline-flex;
+  }
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) .theme-icon-to-dark {
+    display: none;
+  }
+}
+
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-icon-to-light {
+  display: inline-flex;
+}
+
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-icon-to-dark {
+  display: none;
+}
